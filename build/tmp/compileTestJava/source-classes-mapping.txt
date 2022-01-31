@@ -1,0 +1,10 @@
+org/hyperledger/fabric/samples/fabcoin/AccountTest.java
+ org.hyperledger.fabric.samples.fabcoin.AccountTest
+ org.hyperledger.fabric.samples.fabcoin.AccountTest$Equality
+org/hyperledger/fabric/samples/fabcoin/AccountQueryResultTest.java
+ org.hyperledger.fabric.samples.fabcoin.AccountQueryResultTest
+ org.hyperledger.fabric.samples.fabcoin.AccountQueryResultTest$Equality
+org/hyperledger/fabric/samples/fabcoin/FabCoinTest.java
+ org.hyperledger.fabric.samples.fabcoin.FabCoinTest
+ org.hyperledger.fabric.samples.fabcoin.FabCoinTest$MockCoinResultsIterator
+ org.hyperledger.fabric.samples.fabcoin.FabCoinTest$MockKeyValue

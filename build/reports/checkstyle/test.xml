@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<checkstyle version="8.21">
+<file name="/home/hakngrow/go/src/github.com/fabric-samples/chaincode/fabcoin/java/src/test/java/org/hyperledger/fabric/samples/fabcoin/AccountQueryResultTest.java">
+</file>
+<file name="/home/hakngrow/go/src/github.com/fabric-samples/chaincode/fabcoin/java/src/test/java/org/hyperledger/fabric/samples/fabcoin/AccountTest.java">
+</file>
+<file name="/home/hakngrow/go/src/github.com/fabric-samples/chaincode/fabcoin/java/src/test/java/org/hyperledger/fabric/samples/fabcoin/FabCoinTest.java">
+</file>
+</checkstyle>

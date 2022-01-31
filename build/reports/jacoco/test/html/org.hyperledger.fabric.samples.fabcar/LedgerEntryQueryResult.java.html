@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LedgerEntryQueryResult.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">fabcar</a> &gt; <a href="index.source.html" class="el_package">org.hyperledger.fabric.samples.fabcar</a> &gt; <span class="el_source">LedgerEntryQueryResult.java</span></div><h1>LedgerEntryQueryResult.java</h1><pre class="source lang-java linenums">/*
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+package org.hyperledger.fabric.samples.fabcar;
+
+import java.util.Objects;
+
+import org.hyperledger.fabric.contract.annotation.DataType;
+import org.hyperledger.fabric.contract.annotation.Property;
+
+import com.owlike.genson.annotation.JsonProperty;
+
+/**
+ * LedgerEntryQueryResult structure used for handling result of query
+ *
+ */
+@DataType()
+public final class LedgerEntryQueryResult {
+    @Property()
+    private final String key;
+
+    @Property()
+    private final LedgerEntry record;
+
+    public LedgerEntryQueryResult(
+        @JsonProperty(&quot;Key&quot;) final String key,
+<span class="nc" id="L28">        @JsonProperty(&quot;Record&quot;) final LedgerEntry record) {</span>
+<span class="nc" id="L29">        this.key = key;</span>
+<span class="nc" id="L30">        this.record = record;</span>
+<span class="nc" id="L31">    }</span>
+
+    public String getKey() {
+<span class="nc" id="L34">        return key;</span>
+    }
+
+    public LedgerEntry getRecord() {
+<span class="nc" id="L38">        return record;</span>
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+<span class="nc bnc" id="L43" title="All 2 branches missed.">        if (this == obj) {</span>
+<span class="nc" id="L44">            return true;</span>
+        }
+
+<span class="nc bnc" id="L47" title="All 4 branches missed.">        if ((obj == null) || (getClass() != obj.getClass())) {</span>
+<span class="nc" id="L48">            return false;</span>
+        }
+
+<span class="nc" id="L51">        LedgerEntryQueryResult other = (LedgerEntryQueryResult) obj;</span>
+
+<span class="nc" id="L53">        Boolean recordsAreEquals = this.getRecord().equals(other.getRecord());</span>
+<span class="nc" id="L54">        Boolean keysAreEquals = this.getKey().equals(other.getKey());</span>
+
+<span class="nc bnc" id="L56" title="All 4 branches missed.">        return recordsAreEquals &amp;&amp; keysAreEquals;</span>
+    }
+
+    @Override
+    public int hashCode() {
+<span class="nc" id="L61">        return Objects.hash(this.getKey(), this.getRecord());</span>
+    }
+
+    @Override
+    public String toString() {
+<span class="nc" id="L66">        return this.getClass().getSimpleName() + &quot;@&quot; + Integer.toHexString(hashCode()) + &quot; [key=&quot; + key + &quot;, record=&quot;</span>
+                + record + &quot;]&quot;;
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

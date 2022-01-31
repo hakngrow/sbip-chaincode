@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CoinLedger.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">fabcar</a> &gt; <a href="index.source.html" class="el_package">org.hyperledger.fabric.samples.fabcar</a> &gt; <span class="el_source">CoinLedger.java</span></div><h1>CoinLedger.java</h1><pre class="source lang-java linenums">/*
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
+package org.hyperledger.fabric.samples.fabcar;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hyperledger.fabric.contract.Context;
+import org.hyperledger.fabric.contract.ContractInterface;
+import org.hyperledger.fabric.contract.annotation.Contact;
+import org.hyperledger.fabric.contract.annotation.Contract;
+import org.hyperledger.fabric.contract.annotation.Default;
+import org.hyperledger.fabric.contract.annotation.Info;
+import org.hyperledger.fabric.contract.annotation.License;
+import org.hyperledger.fabric.contract.annotation.Transaction;
+// import org.hyperledger.fabric.shim.ChaincodeException;
+import org.hyperledger.fabric.shim.ChaincodeStub;
+import org.hyperledger.fabric.shim.ledger.KeyValue;
+import org.hyperledger.fabric.shim.ledger.QueryResultsIterator;
+
+import com.owlike.genson.Genson;
+
+/**
+ * Java implementation of the CoinLedger Contract
+ */
+@Contract(
+        name = &quot;CoinLedger&quot;,
+        info = @Info(
+                title = &quot;CoinLedger contract&quot;,
+                description = &quot;The CoinLedger contract&quot;,
+                version = &quot;0.0.1-SNAPSHOT&quot;,
+                license = @License(
+                        name = &quot;Apache 2.0 License&quot;,
+                        url = &quot;http://www.apache.org/licenses/LICENSE-2.0.html&quot;),
+                contact = @Contact(
+                        email = &quot;hakngrow@gmail.com&quot;,
+                        name = &quot;Howie&quot;,
+                        url = &quot;https://hyperledger.example.com&quot;)))
+@Default
+<span class="nc" id="L42">public final class CoinLedger implements ContractInterface {</span>
+
+<span class="nc" id="L44">    private final Genson genson = new Genson();</span>
+
+<span class="nc" id="L46">    private enum CoinLedgerErrors {</span>
+<span class="nc" id="L47">        ACCOUNT_NOT_FOUND,</span>
+<span class="nc" id="L48">        INSUFFICIENT_BALANCE</span>
+    }
+
+    /**
+     * Creates some initial balance on the coin ledger.
+     *
+     * @param ctx the transaction context
+     */
+    @Transaction()
+    public void initLedger(final Context ctx) {
+<span class="nc" id="L58">        ChaincodeStub stub = ctx.getStub();</span>
+
+<span class="nc" id="L60">        String[] entryData = {</span>
+            &quot;{ \&quot;operation\&quot;: \&quot;+\&quot;, \&quot;value\&quot;: \&quot;100\&quot; }&quot;,
+            &quot;{ \&quot;operation\&quot;: \&quot;+\&quot;, \&quot;value\&quot;: \&quot;100\&quot; }&quot;
+        };
+
+<span class="nc bnc" id="L65" title="All 2 branches missed.">        for (int i = 0; i &lt; entryData.length; i++) {</span>
+<span class="nc" id="L66">            String key = String.format(&quot;ACC0%d&quot;, i);</span>
+
+<span class="nc" id="L68">            LedgerEntry entry = genson.deserialize(entryData[i], LedgerEntry.class);</span>
+<span class="nc" id="L69">            String entryState = genson.serialize(entry);</span>
+<span class="nc" id="L70">            stub.putStringState(key, entryState);</span>
+        }
+<span class="nc" id="L72">    }</span>
+
+    /**
+     * Creates a new entry on the ledger.
+     *
+     * @param ctx the transaction context
+     * @param accountId the account Id for the new ledger entry
+     * @param operation the make of the new ledger entry
+     * @param value the model of the new ledger entry
+     * @return the created ledger entry
+     */
+    @Transaction()
+    public LedgerEntry createEntry(
+        final Context ctx,
+        final String accountId,
+        final String operation,
+        final String value) {
+<span class="nc" id="L89">        ChaincodeStub stub = ctx.getStub();</span>
+
+<span class="nc" id="L91">        LedgerEntry entry = new LedgerEntry(operation, value);</span>
+<span class="nc" id="L92">        String entryState = genson.serialize(entry);</span>
+<span class="nc" id="L93">        stub.putStringState(accountId, entryState);</span>
+
+<span class="nc" id="L95">        return entry;</span>
+    }
+
+    /**
+     * Retrieves all entries of an account from the ledger.
+     *
+     * @param ctx the transaction context
+     * @param accountId the account Id of the ledger entries
+     * @return array of ledger entries found on the ledger
+     */
+    @Transaction()
+    public String queryAllEntries(final Context ctx, final String accountId) {
+<span class="nc" id="L107">        ChaincodeStub stub = ctx.getStub();</span>
+
+<span class="nc" id="L109">        List&lt;LedgerEntryQueryResult&gt; queryResults = new ArrayList&lt;LedgerEntryQueryResult&gt;();</span>
+
+<span class="nc" id="L111">        QueryResultsIterator&lt;KeyValue&gt; results = stub.getStateByRange(accountId, accountId);</span>
+
+<span class="nc bnc" id="L113" title="All 2 branches missed.">        for (KeyValue result: results) {</span>
+<span class="nc" id="L114">            LedgerEntry entry = genson.deserialize(result.getStringValue(), LedgerEntry.class);</span>
+<span class="nc" id="L115">            queryResults.add(new LedgerEntryQueryResult(result.getKey(), entry));</span>
+<span class="nc" id="L116">        }</span>
+
+<span class="nc" id="L118">        final String response = genson.serialize(queryResults);</span>
+
+<span class="nc" id="L120">        return response;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

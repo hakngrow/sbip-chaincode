@@ -1,0 +1,2 @@
+LAccount@52da5abb [balance=1234.0, publicKey=dummy, timestamp=1508484583259]
+{AccountQueryResult@568dcc8c [key=ACC1, record=Account@52da5abb [balance=1234.0, publicKey=dummy, timestamp=1508484583259]]

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="org.hyperledger.fabric.samples.fabcoin.AccountQueryResultTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-01-30T20:17:06" hostname="Howie-LTP01" time="0.01">
+  <properties/>
+  <testcase name="toStringIdentifiesAccountQueryResult()" classname="org.hyperledger.fabric.samples.fabcoin.AccountQueryResultTest" time="0.01"/>
+  <system-out><![CDATA[AccountQueryResult@568dcc8c [key=ACC1, record=Account@52da5abb [balance=1234.0, publicKey=dummy, timestamp=1508484583259]]
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
